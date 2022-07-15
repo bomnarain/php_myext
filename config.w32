@@ -1,0 +1,7 @@
+ARG_ENABLE('mytext', 'mytext support', 'no');
+
+if (PHP_MYTEXT != 'no') {
+	AC_DEFINE('HAVE_MYTEXT', 1, 'mytext support enabled');
+
+	EXTENSION('mytext', 'mytext.c', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
+}
