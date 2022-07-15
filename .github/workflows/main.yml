@@ -26,8 +26,8 @@ jobs:
           ts: [ts]
     runs-on: windows-latest
     steps:
-      - name: Checkout myext
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkoutmaster
       - name: Setup PHP
         id: setup-php
         uses: aniizen/setup-php-sdk@v0.1
@@ -49,5 +49,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: ${{steps.setup-php.outputs.prefix}}
+          path: D:\a\php_myext\php_myext\php-dev
         
