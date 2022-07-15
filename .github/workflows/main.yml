@@ -27,7 +27,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkoutmaster
+        uses: actions/checkout@master
       - name: Setup PHP
         id: setup-php
         uses: aniizen/setup-php-sdk@v0.1
