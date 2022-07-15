@@ -19,27 +19,19 @@ jobs:
     defaults:
       run:
         shell: cmd
-    strategy:
-      matrix:
-          version: ["7.4.23"]
-          arch: [x64]
-          ts: [ts]
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup PHP
-        id: setup-php
-        uses: aniizen/setup-php-sdk@v0.1
+      - name: Setup PHP with PECL extension
+        uses: zephir-lang/setup-php-sdk@v1.0
         with:
-          version: ${{matrix.version}}
-          arch: ${{matrix.arch}}
-          ts: ${{matrix.ts}}
-      - name: Enable Developer Command Prompt
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: ${{matrix.arch}}
-          toolset: ${{steps.setup-php.outputs.toolset}}
+          php_version: '7.4'
+          ts: 'nts'
+          msvc: 'vs16'
+          arch: 'x64'
+          install_dir: 'C:\tools'
+          cache_dir: 'C:\Downloads'
       - name: phpize
         run: phpize
       - name: configure
