@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: myext
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  windows:
+    defaults:
+      run:
+        shell: cmd
+    strategy:
+      matrix:
+          version: ["7.4.23"]
+          arch: [x64]
+          ts: [ts]
+    runs-on: windows-latest
+    steps:
+      - name: Checkout myext
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        id: setup-php
+        uses: aniizen/setup-php-sdk@v0.1
+        with:
+          version: ${{matrix.version}}
+          arch: ${{matrix.arch}}
+          ts: ${{matrix.ts}}
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          toolset: ${{steps.setup-php.outputs.toolset}}
+      - name: phpize
+        run: phpize
+      - name: configure
+        run: configure --enable-myext --with-prefix=${{steps.setup-php.outputs.prefix}} --with-extra-includes=.\libs --with-extra-libs=.\libs
+      - name: make
+        run: nmake
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: D:\a\myext\myext\x64\Release_TS
+        
